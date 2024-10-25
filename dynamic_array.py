@@ -185,7 +185,7 @@ class DynamicArray:
 
             raise DynamicArrayException
 
-        if self._size - 1 < self._capacity // 4 and self._capacity > 10: #Check if the capacity needs to be reduced.
+        if self._size - 1 < self._capacity * .25 and self._capacity > 10: #Check if the capacity needs to be reduced.
 
             if 2 * self._size - 1 > 10: #Conditional statement for resize, resizing cannot reduce the capacity to less than 10 elements.
 
