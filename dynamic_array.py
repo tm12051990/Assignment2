@@ -198,6 +198,12 @@ class DynamicArray:
                 new_capacity = 10
 
                 self.resize(new_capacity)
+
+            if new_capacity < self._capacity:
+
+                self.resize(new_capacity)
+
+
         if index == self._size - 1: #Provides O(1) functionality, if index to be removed is the last element in the array, no shifting needs to occur.
 
             self._size -= 1
