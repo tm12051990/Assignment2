@@ -132,34 +132,102 @@ class DynamicArray:
     # -----------------------------------------------------------------------
 
     def resize(self, new_capacity: int) -> None:
-        """
-        TODO: Write this implementation
-        """
-        pass
+        """resizes internal array to new capacity"""
+
+        if new_capacity < self._size or new_capacity <= 0:
+
+            return
+
+        new_data = StaticArray(new_capacity) #Initializes a new StaticArray that can hold new_capacity elements.
+
+        for i in range(self._size): #Loop that iterates over each element in the old array to copy the values to new array.
+
+            new_data[i] = self._data[i] #Makes the copy
+
+            self._data = new_data #Updates the internal array to reflect the new resized array.
+
+            self._capacity = new_capacity #Updates the internal capacity to reflect the new capacity.
 
     def append(self, value: object) -> None:
-        """
-        TODO: Write this implementation
-        """
-        pass
+        """Appends new value to the end of the array"""
+
+        if self._size == self._capacity: #If capacity is reached, doubles the capacity.
+
+            self.resize(2 * self._capacity)
+
+        self._data[self._size] = value #Sets the value to the next available position.
+
+        self._size += 1 #increments the size by 1 since a new element is added.
 
     def insert_at_index(self, index: int, value: object) -> None:
-        """
-        TODO: Write this implementation
-        """
-        pass
+        """Inserts a new element at a given index in the array"""
+
+        if index < 0 or index > self._size: #Parameters for Dynamic Array Exception.
+
+            raise DynamicArrayException
+
+        if self._size == self._capacity: #If capacity is reached, doubles the capacity.
+
+            self.resize(2 * self._capacity)
+
+        for i in range(self._size - 1, index - 1, -1): #Loop for shifting all elements, from the desired index, to the right.
+
+            self._data[i+1] = self._data[i] #Copies elements from the desired index, one index to the right.
+
+        self._data[index] = value #Places the new value at the desired index
+
+        self._size += 1 #Increase size of the array by 1 to account for the new value.
 
     def remove_at_index(self, index: int) -> None:
-        """
-        TODO: Write this implementation
-        """
-        pass
+        """Removes an element at a given index and adjusts capacity if below a certain threshold"""
+
+        if index < 0 or index >= self._size: #Parameters for Dynamic Array Exception.
+
+            raise DynamicArrayException
+
+        if self._size < self._capacity // 4: #Check if the capacity needs to be reduced.
+
+            if 2 * self._size > 10: #Conditional statement for resize, resizing cannot reduce the capacity to less than 10 elements.
+
+                new_capacity = 2 * self._size #doubles the current capacity.
+
+            else: #If the the adjusted capacity will be less than 10, sets the capacity to 10.
+
+                new_capacity = 10
+
+            if new_capacity < self._capacity: #Checks if the new capacity is smaller than the current capacity.
+
+                self.resize(new_capacity)
+
+        if index == self._size - 1: #Provides O(1) functionality, if index to be removed is the last element in the array, no shifting needs to occur.
+
+            self._size -= 1
+
+            return
+
+        for i in range(index, self._size - 1): #Loop to remove elements at a desired index.
+
+            self._data[i] = self._data[i+1] #Shifts each element to the left after removing the element.
+
+        self._size -= 1 #Decreases size of the array by 1.
 
     def slice(self, start_index: int, size: int) -> "DynamicArray":
-        """
-        TODO: Write this implementation
-        """
-        pass
+
+        if start_index < 0 or start_index >= self._size:
+
+            raise DynamicArrayException
+
+        if size < 0 or start_index + size > self._size:
+
+            raise DynamicArrayException
+
+        sliced_array = DynamicArray()
+
+        for i in range(start_index, size):
+
+            sliced_array.append(self._data[i])
+
+        return sliced_array
 
     def map(self, map_func) -> "DynamicArray":
         """
@@ -171,9 +239,9 @@ class DynamicArray:
         """
         TODO: Write this implementation
         """
-        pass
 
     def reduce(self, reduce_func, initializer=None) -> object:
+        pass
         """
         TODO: Write this implementation
         """
