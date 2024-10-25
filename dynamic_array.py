@@ -195,13 +195,9 @@ class DynamicArray:
 
             else: #If the the adjusted capacity will be less than 10, sets the capacity to 10.
 
-                new_capacity = 10
+                self._capacity = 10
 
-                self.resize(new_capacity)
 
-            if new_capacity < self._capacity:
-
-                self.resize(new_capacity)
 
 
         if index == self._size - 1: #Provides O(1) functionality, if index to be removed is the last element in the array, no shifting needs to occur.
