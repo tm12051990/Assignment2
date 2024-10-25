@@ -144,9 +144,9 @@ class DynamicArray:
 
             new_data[i] = self._data[i] #Makes the copy
 
-            self._data = new_data #Updates the internal array to reflect the new resized array.
+        self._data = new_data #Updates the internal array to reflect the new resized array.
 
-            self._capacity = new_capacity #Updates the internal capacity to reflect the new capacity.
+        self._capacity = new_capacity #Updates the internal capacity to reflect the new capacity.
 
     def append(self, value: object) -> None:
         """Appends new value to the end of the array"""
