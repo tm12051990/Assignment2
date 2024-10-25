@@ -179,38 +179,36 @@ class DynamicArray:
         self._size += 1 #Increase size of the array by 1 to account for the new value.
 
     def remove_at_index(self, index: int) -> None:
-        """
-        Removes an element from the dynamic array at the specified index.
-        Adjusts the capacity if necessary before the removal.
-        """
+        """Removes an element at a given index and adjusts capacity if below a certain threshold"""
 
-        # Check for valid index
-        if index < 0 or index >= self._size:
-            raise DynamicArrayException("Invalid index")
+        if index < 0 or index >= self._size: #Parameters for Dynamic Array Exception.
 
-        # Capacity adjustment: Perform check BEFORE removing the element
-        # Resize only if the size (before removal) is less than 1/4 of the current capacity and the capacity is greater than 10
-        if self._size < self._capacity // 4 and self._capacity > 10:
-            # Calculate new capacity: it should be twice the current size (before removal) or 10, whichever is larger
-            if 2 * self._size > 10:
-                new_capacity = 2 * self._size
-            else:
-                new_capacity = 10
-            # Resize the array to the new capacity
-            if new_capacity < self._capacity:
+            raise DynamicArrayException
+
+        if self._size < self._capacity // 4 and self._capacity > 10: #Check if the capacity needs to be reduced.
+
+            if 2 * self._size > 10: #Conditional statement for resize, resizing cannot reduce the capacity to less than 10 elements.
+
+                new_capacity = 2 * self._size #doubles the current capacity.
+
                 self.resize(new_capacity)
 
-        # O(1) best-case: If removing the last element, no shifting is needed
-        if index == self._size - 1:
+            else: #If the the adjusted capacity will be less than 10, sets the capacity to 10.
+
+                new_capacity = 10
+
+                self.resize(new_capacity)
+        if index == self._size - 1: #Provides O(1) functionality, if index to be removed is the last element in the array, no shifting needs to occur.
+
             self._size -= 1
+
             return
 
-        # Shift elements to the left from the index to the end, if necessary
-        for i in range(index, self._size - 1):
-            self._data[i] = self._data[i + 1]
+        for i in range(index, self._size - 1): #Loop to remove elements at a desired index.
 
-        # Decrease the size after removal
-        self._size -= 1
+            self._data[i] = self._data[i+1] #Shifts each element to the left after removing the element.
+
+        self._size -= 1 #Decreases size of the array by 1.
 
     def slice(self, start_index: int, size: int) -> "DynamicArray":
 
