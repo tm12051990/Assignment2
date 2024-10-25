@@ -185,7 +185,7 @@ class DynamicArray:
 
             raise DynamicArrayException
 
-        if self._size < self._capacity // 4 and self._capacity > 10: #Check if the capacity needs to be reduced.
+        if self._size < self._capacity / 4 and self._capacity > 10: #Check if the capacity needs to be reduced.
 
             if 2 * self._size > 10: #Conditional statement for resize, resizing cannot reduce the capacity to less than 10 elements.
 
@@ -195,9 +195,13 @@ class DynamicArray:
 
             else: #If the the adjusted capacity will be less than 10, sets the capacity to 10.
 
-                self._capacity = 10
+                new_capacity = 10
 
+                self.resize(new_capacity)
 
+            if new_capacity < self._capacity:
+
+                self.resize(new_capacity)
 
 
         if index == self._size - 1: #Provides O(1) functionality, if index to be removed is the last element in the array, no shifting needs to occur.
