@@ -218,19 +218,19 @@ class DynamicArray:
 
     def slice(self, start_index: int, size: int) -> "DynamicArray":
 
-        if start_index < 0 or start_index >= self._size:
+        if start_index < 0 or start_index >= self._size: #Raise exception if the start_index is invalid.
 
             raise DynamicArrayException
 
-        if size < 0 or start_index + size > self._size:
+        if size < 0 or start_index + size > self._size: #Raise exception if the size is invalid or the sliced elements are invalid.
 
             raise DynamicArrayException
 
-        sliced_array = DynamicArray()
+        sliced_array = DynamicArray() #Initializes new array to copy the sliced elements
 
-        for i in range(start_index, size):
+        for i in range(start_index, start_index + size): #For loops that slices from the given index, up to the size indicated.
 
-            sliced_array.append(self._data[i])
+            sliced_array.append(self._data[i]) #Copies those elements into the new array.
 
         return sliced_array
 
