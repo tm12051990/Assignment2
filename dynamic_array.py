@@ -329,8 +329,8 @@ def find_mode(arr: DynamicArray) -> tuple[DynamicArray, int]:
 
     mode_array = DynamicArray()
 
-    max_frequency = 1
-    current_frequency = 1
+    max_frequency = 0
+    current_frequency = 0
     mode_array.append(arr[0])
 
     for i in range(1, arr.length()):
