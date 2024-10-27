@@ -309,7 +309,7 @@ def chunk(arr: DynamicArray) -> "DynamicArray":
 
         if arr[i] >= arr[i-1]:
 
-            chunked_array.append(arr[i])
+            current_chunk.append(arr[i])
 
         else:
 
