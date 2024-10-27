@@ -217,6 +217,7 @@ class DynamicArray:
         self._size -= 1 #Decreases size of the array by 1.
 
     def slice(self, start_index: int, size: int) -> "DynamicArray":
+        """Slices a portion of an existing array with given parameters, then copies those elements into a new array."""
 
         if start_index < 0 or start_index >= self._size: #Raise exception if the start_index is invalid.
 
@@ -235,29 +236,92 @@ class DynamicArray:
         return sliced_array
 
     def map(self, map_func) -> "DynamicArray":
-        """
-        TODO: Write this implementation
-        """
-        pass
+        """Defines a map function that maps each element to a given function, then copies their output into a new array"""
+
+        mapped_array = DynamicArray() #Initializes new array
+
+        for i in range(self._size): #Loop that applies the map function to each element in the array
+
+            mapped_array.append(map_func(self._data[i])) #Copies those elements into a new array
+
+        return mapped_array
 
     def filter(self, filter_func) -> "DynamicArray":
-        """
-        TODO: Write this implementation
-        """
+        """Defines a function that filters elements from an exisiting array then copies the filtered elements into a new array"""
+
+        filtered_array = DynamicArray() #Initializes the new array
+
+        for i in range(self._size): #Loop that applies the filter paraments and copies them to a new array, if those elements are found.
+
+            if filter_func(self._data[i]): #Boolean
+
+                filtered_array.append(filter_func(self._data[i]))
+
+        return filtered_array
 
     def reduce(self, reduce_func, initializer=None) -> object:
-        pass
-        """
-        TODO: Write this implementation
-        """
-        pass
+        """Defines a function that applies the reduce funtion to all elements in an array, then returns the accumulated result"""
+
+        if self._size == 0: #If the dynamic array is empty or the initializer is None, returns none, otherwise begins the loop.
+
+            if initializer is None:
+
+                return None
+
+            return initializer
+
+        if initializer is None: #Sets accumulator if initializer parameter is not provided.
+
+            accumulator = self._data[0]
+
+            start_index = 1
+
+        else: #If initializer is provided, sets it to the accumulator
+
+            accumulator = initializer
+
+            start_index = 0
+
+        for i in range(start_index, self._size): #Loops through the array, applying the function to all elements.
+
+            accumulator.append(reduce_func(self._data[i]))
+
+        return accumulator
+
+
+
+
 
 
 def chunk(arr: DynamicArray) -> "DynamicArray":
-    """
-    TODO: Write this implementation
-    """
-    pass
+    """defines a function that takes an array and splits them into smaller sub arrays of equal size"""
+
+    chunked_array = DynamicArray()
+
+    if arr.length == 0:
+
+        return chunked_array
+
+    current_chunk = DynamicArray()
+    current_chunk.append(arr[0])
+
+    for i in range(1, arr.length):
+
+        if current_chunk[i] >= current_chunk[i-1]:
+
+            chunked_array.append(arr[i])
+
+        else:
+
+            chunked_array.append(current_chunk)
+
+            current_chunk = DynamicArray()
+            current_chunk.append(arr[i])
+
+    chunked_array.append(current_chunk)
+
+    return chunked_array
+
 
 
 def find_mode(arr: DynamicArray) -> tuple[DynamicArray, int]:
