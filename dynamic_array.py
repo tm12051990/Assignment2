@@ -284,7 +284,7 @@ class DynamicArray:
 
         for i in range(start_index, self._size): #Loops through the array, applying the function to all elements.
 
-            accumulator.append(reduce_func(self._data[i]))
+            accumulator = reduce_func(self._data[i], accumulator)
 
         return accumulator
 
