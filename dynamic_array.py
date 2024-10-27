@@ -298,16 +298,16 @@ def chunk(arr: DynamicArray) -> "DynamicArray":
 
     chunked_array = DynamicArray()
 
-    if arr.length == 0:
+    if arr.length() == 0:
 
         return chunked_array
 
     current_chunk = DynamicArray()
     current_chunk.append(arr[0])
 
-    for i in range(1, arr.length):
+    for i in range(1, arr.length()):
 
-        if current_chunk[i] >= current_chunk[i-1]:
+        if arr[i] >= arr[i-1]:
 
             chunked_array.append(arr[i])
 
