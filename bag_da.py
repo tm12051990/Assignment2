@@ -49,23 +49,24 @@ class Bag:
     def remove(self, value: object) -> bool:
 
         for i in range(self._da.length()):
-
             if self._da[i] == value:
-
-                for j in range(i, self._da.length() -1):
-
-                    self._da[j] = self._da[j + 1]
-
+                for j in range(i, self._da.length()-1):
+                    self._da[j] = self._da[j+1]
                 self._da._size -= 1
-
                 return True
         return False
 
     def count(self, value: object) -> int:
-        """
-        TODO: Write this implementation
-        """
-        pass
+
+        accumulator = 0
+
+        for i in range(self._da.length()):
+
+            if self._da[i] == value:
+
+                accumulator += 1
+
+        return accumulator
 
     def clear(self) -> None:
         """

@@ -130,197 +130,126 @@ class DynamicArray:
         print(f"Length: {self._size}, Capacity: {self._capacity}, {self._data}")
 
     # -----------------------------------------------------------------------
-
     def resize(self, new_capacity: int) -> None:
         """resizes internal array to new capacity"""
-
         if new_capacity < self._size or new_capacity <= 0:
             return
-
         new_data = StaticArray(new_capacity) #Initializes a new StaticArray that can hold new_capacity elements.
-
         for i in range(self._size): #Loop that iterates over each element in the old array to copy the values to new array.
-            new_data[i] = self._data[i] #Makes the copy
-
-        self._data = new_data #Updates the internal array to reflect the new resized array.
-        self._capacity = new_capacity #Updates the internal capacity to reflect the new capacity.
-
+            new_data[i] = self._data[i]
+        self._data = new_data
+        self._capacity = new_capacity
     def append(self, value: object) -> None:
         """Appends new value to the end of the array"""
-
         if self._size == self._capacity: #If capacity is reached, doubles the capacity.
             self.resize(2 * self._capacity)
-
-        self._data[self._size] = value #Sets the value to the next available position.
-        self._size += 1 #increments the size by 1 since a new element is added.
-
+        self._data[self._size] = value
+        self._size += 1
     def insert_at_index(self, index: int, value: object) -> None:
         """Inserts a new element at a given index in the array"""
-
         if index < 0 or index > self._size: #Parameters for Dynamic Array Exception.
             raise DynamicArrayException
-
         if self._size == self._capacity: #If capacity is reached, doubles the capacity.
             self.resize(2 * self._capacity)
-
-        for i in range(self._size - 1, index - 1, -1): #Loop for shifting all elements, from the desired index, to the right.
-            self._data[i+1] = self._data[i] #Copies elements from the desired index, one index to the right.
-
-        self._data[index] = value #Places the new value at the desired index
-
-        self._size += 1 #Increase size of the array by 1 to account for the new value.
-
+        for i in range(self._size-1, index-1, -1): #Loop for shifting all elements, from the desired index, to the right.
+            self._data[i+1] = self._data[i]
+        self._data[index] = value
+        self._size += 1
     def remove_at_index(self, index: int) -> None:
         """Removes an element at a given index and adjusts capacity if below a certain threshold"""
-
         if index < 0 or index >= self._size: #Parameters for Dynamic Array Exception.
             raise DynamicArrayException
-
         if self._size < self._capacity / 4 and self._capacity > 10: #Check if the capacity needs to be reduced.
-
             if 2 * self._size > 10: #Conditional statement for resize, resizing cannot reduce the capacity to less than 10 elements.
-                new_capacity = 2 * self._size #doubles the current capacity.
+                new_capacity = 2 * self._size
                 self.resize(new_capacity)
-
             else: #If the the adjusted capacity will be less than 10, sets the capacity to 10.
                 new_capacity = 10
                 self.resize(new_capacity)
-
             if new_capacity < self._capacity:
                 self.resize(new_capacity)
-
-
-        if index == self._size - 1: #Provides O(1) functionality, if index to be removed is the last element in the array, no shifting needs to occur.
+        if index == self._size-1: #Provides O(1) functionality, if index to be removed is the last element in the array, no shifting needs to occur.
             self._size -= 1
-
             return
-
-        for i in range(index, self._size - 1): #Loop to remove elements at a desired index.
-            self._data[i] = self._data[i+1] #Shifts each element to the left after removing the element.
-
-        self._size -= 1 #Decreases size of the array by 1.
-
+        for i in range(index, self._size-1): #Loop to remove elements at a desired index.
+            self._data[i] = self._data[i+1]
+        self._size -= 1
     def slice(self, start_index: int, size: int) -> "DynamicArray":
         """Slices a portion of an existing array with given parameters, then copies those elements into a new array."""
-
         if start_index < 0 or start_index >= self._size: #Raise exception if the start_index is invalid.
             raise DynamicArrayException
-
         if size < 0 or start_index + size > self._size: #Raise exception if the size is invalid or the sliced elements are invalid.
             raise DynamicArrayException
-
-        sliced_array = DynamicArray() #Initializes new array to copy the sliced elements
-
+        sliced_array = DynamicArray()
         for i in range(start_index, start_index + size): #For loops that slices from the given index, up to the size indicated.
-            sliced_array.append(self._data[i]) #Copies those elements into the new array.
-
+            sliced_array.append(self._data[i])
         return sliced_array
-
     def map(self, map_func) -> "DynamicArray":
         """Defines a map function that maps each element to a given function, then copies their output into a new array"""
-
-        mapped_array = DynamicArray() #Initializes new array
-
+        mapped_array = DynamicArray()
         for i in range(self._size): #Loop that applies the map function to each element in the array
             mapped_array.append(map_func(self._data[i])) #Copies those elements into a new array
-
         return mapped_array
-
     def filter(self, filter_func) -> "DynamicArray":
         """Defines a function that filters elements from an exisiting array then copies the filtered elements into a new array"""
-
-        filtered_array = DynamicArray() #Initializes the new array
-
+        filtered_array = DynamicArray()
         for i in range(self._size): #Loop that applies the filter paraments and copies them to a new array, if those elements are found.
-
-            if filter_func(self._data[i]): #Boolean
+            if filter_func(self._data[i]):
                 filtered_array.append(self._data[i])
-
         return filtered_array
-
     def reduce(self, reduce_func, initializer=None) -> object:
         """Defines a function that applies the reduce funtion to all elements in an array, then returns the accumulated result"""
-
         if self._size == 0: #If the dynamic array is empty or the initializer is None, returns none, otherwise begins the loop.
             if initializer is None:
                 return None
-
             return initializer
-
         if initializer is None: #Sets accumulator if initializer parameter is not provided.
             accumulator = self._data[0]
             start_index = 1
-
         else: #If initializer is provided, sets it to the accumulator
             accumulator = initializer
             start_index = 0
-
         for i in range(start_index, self._size): #Loops through the array, applying the function to all elements.
             accumulator = reduce_func(accumulator, self._data[i])
-
         return accumulator
-
-
-
-
-
-
 def chunk(arr: DynamicArray) -> "DynamicArray":
     """defines a function that takes an array and splits them into smaller sub arrays of equal size"""
-
-    chunked_array = DynamicArray() #Initializes a new array for the chunked values
-
+    chunked_array = DynamicArray()
     if arr.length() == 0: #Edge case if there are no elements in the array.
         return chunked_array
-
-    current_chunk = DynamicArray() #Creates an array for evaluating the elements in the current chunk.
-    current_chunk.append(arr[0]) #Appends the first element of the array to start the chunk.
-
+    current_chunk = DynamicArray()
+    current_chunk.append(arr[0])
     for i in range(1, arr.length()): #Loop for adding elements to the current chunk
         if arr[i] >= arr[i-1]: #Checks if next element is greater than or equal to the current element.
             current_chunk.append(arr[i]) #If true, appends the element to current chunk
-
         else: #If False, adds the current chunk array to the chunked array.
             chunked_array.append(current_chunk)
-            current_chunk = DynamicArray() #Reinitializes a new current chunk array.
+            current_chunk = DynamicArray()
             current_chunk.append(arr[i]) #Sets the first element to the current element in the evaluation array.
-
-    chunked_array.append(current_chunk) #Once the loop completes, adds the last current chunk to the chunked array.
-
+    chunked_array.append(current_chunk)
     return chunked_array
-
-
-
 def find_mode(arr: DynamicArray) -> tuple[DynamicArray, int]:
     """Defines a function that traverses an array and finds the mode, then returns the mode into an array with a variable to note the frequency it occurred"""
-
     mode_array = DynamicArray() #Creates a new array for find the mode and frequency.
-    max_frequency = 1 #Initializes the max frequency to 1
-    current_frequency = 1 #Initializes the current frequency to 1
-
+    max_frequency = 1
+    current_frequency = 1
     for i in range(1, arr.length()): #Runs a for loop from index 1 through the entire array.
-        if arr[i] == arr[i-1]: #Checks if the the next element in the array is the same as the previous
-            current_frequency += 1 #Increments current frequency by 1 if true.
-
+        if arr[i] == arr[i-1]:
+            current_frequency += 1
         else: #If false
             if current_frequency > max_frequency: #Checks if current frequency is greater than the max frequency.
-                max_frequency = current_frequency #updates max frequency
+                max_frequency = current_frequency
                 mode_array = DynamicArray() #Clears mode array and adds previous element to the array.
                 mode_array.append(arr[i-1])
-
             elif current_frequency == max_frequency: #Adds current element to mode array because it matchs the current max frequency
                 mode_array.append(arr[i-1])
-
             current_frequency = 1
-
     if current_frequency > max_frequency: #Checks last elements in the array.
-        max_frequency = current_frequency #Updates max frequency if greater than the previous
-        mode_array = DynamicArray()  #Clears the mode array
-        mode_array.append(arr[arr.length()-1]) #adds the last element to the mode array
-
-    elif current_frequency == max_frequency: #If its equal to the max frequency
-        mode_array.append(arr[arr.length()-1]) #Adds the element to the mode array.
-
+        max_frequency = current_frequency
+        mode_array = DynamicArray()
+        mode_array.append(arr[arr.length()-1])
+    elif current_frequency == max_frequency:
+        mode_array.append(arr[arr.length()-1])
     return mode_array, max_frequency
 
 
