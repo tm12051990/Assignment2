@@ -296,29 +296,31 @@ class DynamicArray:
 def chunk(arr: DynamicArray) -> "DynamicArray":
     """defines a function that takes an array and splits them into smaller sub arrays of equal size"""
 
-    chunked_array = DynamicArray()
+    chunked_array = DynamicArray() #Initializes a new array for the chunked values
 
-    if arr.length() == 0:
+    if arr.length() == 0: #Edge case if there are no elements in the array.
 
         return chunked_array
 
-    current_chunk = DynamicArray()
-    current_chunk.append(arr[0])
+    current_chunk = DynamicArray() #Creates an array for evaluating the elements in the current chunk.
 
-    for i in range(1, arr.length()):
+    current_chunk.append(arr[0]) #Appends the first element of the array to start the chunk.
 
-        if arr[i] >= arr[i-1]:
+    for i in range(1, arr.length()): #Loop for adding elements to the current chunk
 
-            current_chunk.append(arr[i])
+        if arr[i] >= arr[i-1]: #Checks if next element is greater than or equal to the current element.
 
-        else:
+            current_chunk.append(arr[i]) #If true, appends the element to current chunk
+
+        else: #If False, adds the current chunk array to the chunked array.
 
             chunked_array.append(current_chunk)
 
-            current_chunk = DynamicArray()
-            current_chunk.append(arr[i])
+            current_chunk = DynamicArray() #Reinitializes a new current chunk array.
 
-    chunked_array.append(current_chunk)
+            current_chunk.append(arr[i]) #Sets the first element to the current element in the evaluation array.
+
+    chunked_array.append(current_chunk) #Once the loop completes, adds the last current chunk to the chunked array.
 
     return chunked_array
 
@@ -327,36 +329,45 @@ def chunk(arr: DynamicArray) -> "DynamicArray":
 def find_mode(arr: DynamicArray) -> tuple[DynamicArray, int]:
     """Defines a function that traverses an array and finds the mode, then returns the mode into an array with a variable to note the frequency it occurred"""
 
-    mode_array = DynamicArray()
+    mode_array = DynamicArray() #Creates a new array for find the mode and frequency.
 
-    max_frequency = 1
-    current_frequency = 1
+    max_frequency = 1 #Initializes the max frequency to 1
 
-    for i in range(1, arr.length()):
-        if arr[i] == arr[i-1]:
-            current_frequency += 1
+    current_frequency = 1 #Initializes the current frequency to 1
 
-        else:
+    for i in range(1, arr.length()): #Runs a for loop from index 1 through the entire array.
 
-            if current_frequency > max_frequency:
-                max_frequency = current_frequency
-                mode_array = DynamicArray()
+        if arr[i] == arr[i-1]: #Checks if the the next element in the array is the same as the previous
+
+            current_frequency += 1 #Increments current frequency by 1 if true.
+
+        else: #If false
+
+            if current_frequency > max_frequency: #Checks if current frequency is greater than the max frequency.
+
+                max_frequency = current_frequency #updates max frequency
+
+                mode_array = DynamicArray() #Clears mode array and adds previous element to the array.
+
                 mode_array.append(arr[i-1])
 
-            elif current_frequency == max_frequency:
+            elif current_frequency == max_frequency: #Adds current element to mode array because it matchs the current max frequency
 
                 mode_array.append(arr[i-1])
 
             current_frequency = 1
 
-    if current_frequency > max_frequency:
-        max_frequency = current_frequency
-        mode_array = DynamicArray()
-        mode_array.append(arr[arr.length()-1])
+    if current_frequency > max_frequency: #Checks last elements in the array.
 
-    elif current_frequency == max_frequency:
+        max_frequency = current_frequency #Updates max frequency if greater than the previous
 
-        mode_array.append(arr[arr.length()-1])
+        mode_array = DynamicArray()  #Clears the mode array
+
+        mode_array.append(arr[arr.length()-1]) #adds the last element to the mode array
+
+    elif current_frequency == max_frequency: #If its equal to the max frequency
+
+        mode_array.append(arr[arr.length()-1]) #Adds the element to the mode array.
 
     return mode_array, max_frequency
 
@@ -611,6 +622,15 @@ if __name__ == "__main__":
         print(da)
         print_chunked_da(chunked_da)
 
+    print("# chunk example 3")
+    test_cases = [[1, 2, 3, 4]]
+
+    for case in test_cases:
+        da = DynamicArray(case)
+        chunked_da = chunk(da)
+        print(da)
+        print_chunked_da(chunked_da)
+
     print("\n# find_mode example 1")
     test_cases = (
         [1, 1, 2, 3, 3, 4],
@@ -631,3 +651,4 @@ if __name__ == "__main__":
         da.append(case[x])
         mode, frequency = find_mode(da)
         print(f"{da}\nMode: {mode}, Frequency: {frequency}")
+
