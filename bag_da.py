@@ -79,9 +79,9 @@ class Bag:
 
             current_value = self._da[i]
             self_count = self.count(current_value)
-            second_count = second_bag.count(second_bag)
+            second_bag_count = second_bag.count(current_value)
 
-            if self_count != second_count:
+            if self_count != second_bag_count:
 
                 return False
 
