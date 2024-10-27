@@ -139,12 +139,14 @@ class DynamicArray:
             new_data[i] = self._data[i]
         self._data = new_data
         self._capacity = new_capacity
+
     def append(self, value: object) -> None:
         """Appends new value to the end of the array"""
         if self._size == self._capacity: #If capacity is reached, doubles the capacity.
             self.resize(2 * self._capacity)
         self._data[self._size] = value
         self._size += 1
+
     def insert_at_index(self, index: int, value: object) -> None:
         """Inserts a new element at a given index in the array"""
         if index < 0 or index > self._size: #Parameters for Dynamic Array Exception.
@@ -155,6 +157,7 @@ class DynamicArray:
             self._data[i+1] = self._data[i]
         self._data[index] = value
         self._size += 1
+
     def remove_at_index(self, index: int) -> None:
         """Removes an element at a given index and adjusts capacity if below a certain threshold"""
         if index < 0 or index >= self._size: #Parameters for Dynamic Array Exception.
@@ -174,6 +177,7 @@ class DynamicArray:
         for i in range(index, self._size-1): #Loop to remove elements at a desired index.
             self._data[i] = self._data[i+1]
         self._size -= 1
+
     def slice(self, start_index: int, size: int) -> "DynamicArray":
         """Slices a portion of an existing array with given parameters, then copies those elements into a new array."""
         if start_index < 0 or start_index >= self._size: #Raise exception if the start_index is invalid.
@@ -184,12 +188,14 @@ class DynamicArray:
         for i in range(start_index, start_index + size): #For loops that slices from the given index, up to the size indicated.
             sliced_array.append(self._data[i])
         return sliced_array
+
     def map(self, map_func) -> "DynamicArray":
         """Defines a map function that maps each element to a given function, then copies their output into a new array"""
         mapped_array = DynamicArray()
         for i in range(self._size): #Loop that applies the map function to each element in the array
             mapped_array.append(map_func(self._data[i])) #Copies those elements into a new array
         return mapped_array
+
     def filter(self, filter_func) -> "DynamicArray":
         """Defines a function that filters elements from an exisiting array then copies the filtered elements into a new array"""
         filtered_array = DynamicArray()
@@ -197,6 +203,7 @@ class DynamicArray:
             if filter_func(self._data[i]):
                 filtered_array.append(self._data[i])
         return filtered_array
+
     def reduce(self, reduce_func, initializer=None) -> object:
         """Defines a function that applies the reduce funtion to all elements in an array, then returns the accumulated result"""
         if self._size == 0: #If the dynamic array is empty or the initializer is None, returns none, otherwise begins the loop.
@@ -212,6 +219,7 @@ class DynamicArray:
         for i in range(start_index, self._size): #Loops through the array, applying the function to all elements.
             accumulator = reduce_func(accumulator, self._data[i])
         return accumulator
+
 def chunk(arr: DynamicArray) -> "DynamicArray":
     """defines a function that takes an array and splits them into smaller sub arrays of equal size"""
     chunked_array = DynamicArray()
@@ -228,6 +236,7 @@ def chunk(arr: DynamicArray) -> "DynamicArray":
             current_chunk.append(arr[i]) #Sets the first element to the current element in the evaluation array.
     chunked_array.append(current_chunk)
     return chunked_array
+
 def find_mode(arr: DynamicArray) -> tuple[DynamicArray, int]:
     """Defines a function that traverses an array and finds the mode, then returns the mode into an array with a variable to note the frequency it occurred"""
     mode_array = DynamicArray() #Creates a new array for find the mode and frequency.
