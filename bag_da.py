@@ -1,9 +1,9 @@
-# Name:
-# OSU Email:
+# Name: Tony Miglets
+# OSU Email: migletst@oregonstate.edu
 # Course: CS261 - Data Structures
-# Assignment:
-# Due Date:
-# Description:
+# Assignment: Assignment 2
+# Due Date: 28 OCT 2024
+# Description: ADT Implementation and Dynamic Array HW
 
 
 from dynamic_array import *
@@ -43,68 +43,58 @@ class Bag:
     # -----------------------------------------------------------------------
 
     def add(self, value: object) -> None:
-
+        """Defines an add functionality to add a value to the bag"""
         self._da.append(value)
 
     def remove(self, value: object) -> bool:
-
-        for i in range(self._da.length()):
+        """Defines a function to remove a value from the bag and decrement the array accordingly"""
+        for i in range(self._da.length()): #For loop that checks if the current element is equal to the provided value
             if self._da[i] == value:
                 for j in range(i, self._da.length()-1):
                     self._da[j] = self._da[j+1]
-                self._da._size -= 1
+                self._da._size -= 1 #Decrements the array size
                 return True
         return False
 
     def count(self, value: object) -> int:
-
+        """Defines a function that counts the number of same elements in the bag, then returns the count"""
         accumulator = 0
 
-        for i in range(self._da.length()):
+        for i in range(self._da.length()): #For loop that checks if each element is equal to the provided value.
             if self._da[i] == value:
                 accumulator += 1
         return accumulator
 
     def clear(self) -> None:
-
+        """Clears all elements in the bag"""
         self._da = DynamicArray()
 
     def equal(self, second_bag: "Bag") -> bool:
-
+        """Defines a function that checks if two bags are equal in both length and elements, then returns a boolean"""
         if self._da.length() != second_bag._da.length():
-
             return False
 
-        for i in range(self._da.length()):
-
+        for i in range(self._da.length()): #For loop that checks each element in the index has a match in the second bag.
             current_value = self._da[i]
             self_count = self.count(current_value)
             second_bag_count = second_bag.count(current_value)
-
             if self_count != second_bag_count:
-
                 return False
-
         else:
-
             return True
 
     def __iter__(self):
-
+        """Creates an iterator to iterate over the array"""
         self._index = 0
-
         return self
 
     def __next__(self):
-
-        if self._index < self._da.length():
-
+        """Allows the iterator to move to the next element in the array and stops when there are no more indices"""
+        if self._index < self._da.length(): #Advances iterator if end of the array hasn't been reached.
             current_value = self._da[self._index]
             self._index += 1
             return current_value
-
         else:
-
             raise StopIteration
 
 

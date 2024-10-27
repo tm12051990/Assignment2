@@ -1,9 +1,9 @@
-# Name:
-# OSU Email:
+# Name: Tony Miglets
+# OSU Email: migletst@oregonstate.edu
 # Course: CS261 - Data Structures
-# Assignment:
-# Due Date:
-# Description:
+# Assignment: Assignment 2
+# Due Date: 28 OCT 2024
+# Description: ADT Implementation and Dynamic Array HW
 
 
 from static_array import StaticArray
