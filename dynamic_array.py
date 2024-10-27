@@ -255,7 +255,7 @@ class DynamicArray:
 
             if filter_func(self._data[i]): #Boolean
 
-                filtered_array.append(filter_func(self._data[i]))
+                filtered_array.append(self._data[i])
 
         return filtered_array
 
