@@ -56,7 +56,7 @@ class Bag:
 
                     self._da[j] = self._da[j + 1]
 
-                self._da.set_at_index(self._da.length() -1, None)
+                self._da._size -= 1
 
                 return True
         return False
