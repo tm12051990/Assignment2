@@ -61,24 +61,33 @@ class Bag:
         accumulator = 0
 
         for i in range(self._da.length()):
-
             if self._da[i] == value:
-
                 accumulator += 1
-
         return accumulator
 
     def clear(self) -> None:
-        """
-        TODO: Write this implementation
-        """
-        pass
+
+        self._da = DynamicArray()
 
     def equal(self, second_bag: "Bag") -> bool:
-        """
-        TODO: Write this implementation
-        """
-        pass
+
+        if self._da.length() != second_bag._da.length():
+
+            return False
+
+        for i in range(self._da.length()):
+
+            current_value = self._da[i]
+            self_count = self.count(current_value)
+            second_count = second_bag.count(second_bag)
+
+            if self_count != second_count:
+
+                return False
+
+        else:
+
+            return True
 
     def __iter__(self):
         """
