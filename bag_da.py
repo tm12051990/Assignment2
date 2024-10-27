@@ -90,16 +90,22 @@ class Bag:
             return True
 
     def __iter__(self):
-        """
-        TODO: Write this implementation
-        """
-        pass
+
+        self._index = 0
+
+        return self
 
     def __next__(self):
-        """
-        TODO: Write this implementation
-        """
-        pass
+
+        if self._index < self._da.length():
+
+            current_value = self._da[self._index]
+            self._index += 1
+            return current_value
+
+        else:
+
+            raise StopIteration
 
 
 # ------------------- BASIC TESTING -----------------------------------------
