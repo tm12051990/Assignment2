@@ -325,10 +325,44 @@ def chunk(arr: DynamicArray) -> "DynamicArray":
 
 
 def find_mode(arr: DynamicArray) -> tuple[DynamicArray, int]:
-    """
-    TODO: Write this implementation
-    """
-    pass
+    """Defines a function that traverses an array and finds the mode, then returns the mode into an array with a variable to note the frequency it occurred"""
+
+    mode_array = DynamicArray()
+
+    max_frequency = 1
+    current_frequency = 1
+    mode_array.append(arr[0])
+
+    for i in range(1, arr.length()):
+        if arr[i] == arr[i-1]:
+            current_frequency += 1
+
+        else:
+
+            if current_frequency > max_frequency:
+                max_frequency = current_frequency
+                mode_array = DynamicArray()
+                mode_array.append(arr[i-1])
+
+            elif current_frequency == max_frequency:
+
+                mode_array.append(arr[i-1])
+
+                current_frequency = 1
+
+    if current_frequency > max_frequency:
+        max_frequency = current_frequency
+        mode_array = DynamicArray()
+        mode_array.append(arr[i-1])
+
+    elif current_frequency == max_frequency:
+
+        mode_array.append(arr[arr.length()-1])
+
+    return mode_array, max_frequency
+
+
+
 
 
 # ------------------- BASIC TESTING -----------------------------------------
